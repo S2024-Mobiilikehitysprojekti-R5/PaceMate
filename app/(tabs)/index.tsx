@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { initDB } from "../db";
+import { ExerciseTracker } from "../ExerciseTrackerTest";
 
 export default function HomeScreen() {
   const [activity, setActivity] = useState("");
@@ -40,6 +41,7 @@ export default function HomeScreen() {
           { value: "cycle", label: "Cycling" },
         ]}
       />
+      <ExerciseTracker activity={activity} />
     </ThemedView>
   );
 }
