@@ -1,11 +1,24 @@
 import { StyleSheet } from "react-native";
 import { SegmentedButtons } from "react-native-paper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { initDB } from "../db";
 
 export default function HomeScreen() {
   const [activity, setActivity] = useState("");
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await initDB();
+        console.log("Database initialized successfully");
+      } catch (error) {
+        console.error("Failed to initialize database:", error);
+      }
+    };
+    init();
+  }, []);
 
   return (
     <ThemedView style={styles.content}>
