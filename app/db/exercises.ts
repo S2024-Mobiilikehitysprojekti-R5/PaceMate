@@ -3,48 +3,39 @@ import { getDatabase, Exercise } from "./database";
 const getDb = async () => await getDatabase();
 
 export const exerciseQueries = {
-  async startExercise(type: string): Promise<number> {
+  async addExercise(exercise: Omit<Exercise, "id">): Promise<number> {
     const db = await getDb();
-    const startTime = new Date().toISOString();
 
     const query = `
-     INSERT INTO exercises (
-       type, 
-       start_time
-     ) VALUES (?, ?)
-   `;
+      INSERT INTO exercises (
+        type,
+        start_time,
+        end_time,
+        duration,
+        distance,
+        avg_speed
+      )
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
 
-    const { lastInsertRowId } = await db.runAsync(query, [type, startTime]);
-    return lastInsertRowId;
-  },
-
-  async finishExercise(
-    exerciseId: number,
-    duration: number,
-    distance: number,
-    avgSpeed: number
-  ): Promise<void> {
-    const db = await getDb();
-    const endTime = new Date().toISOString();
-
-    const query = `
-     UPDATE exercises
-     SET end_time = ?,
-         duration = ?,
-         distance = ?,
-         avg_speed = ?
-     WHERE id = ?
-   `;
-
-    const params: [string, number, number, number, number] = [
-      endTime,
-      duration,
-      distance,
-      avgSpeed,
-      exerciseId,
+    const params: [
+      string,
+      string,
+      string | null,
+      number | null,
+      number | null,
+      number | null,
+    ] = [
+      exercise.type,
+      exercise.start_time,
+      exercise.end_time,
+      exercise.duration,
+      exercise.distance,
+      exercise.avg_speed,
     ];
 
-    await db.runAsync(query, params);
+    const { lastInsertRowId } = await db.runAsync(query, params);
+    return lastInsertRowId;
   },
 
   async getExerciseById(id: number): Promise<Exercise | null> {
