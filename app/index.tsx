@@ -1,14 +1,22 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Appbar, FAB, useTheme, Text } from "react-native-paper";
 import Toast from "react-native-root-toast";
+import { initDB } from "@/database";
 
 export default function HomeScreen() {
   const router = useRouter();
   const theme = useTheme();
   // FIXME: Move to Context
   const [isTracking, setIsTracking] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      await initDB();
+      console.log("Database initialized");
+    })();
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
