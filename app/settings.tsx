@@ -1,7 +1,5 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useState } from "react";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import { SegmentedButtons, Switch } from "react-native-paper";
 
 export default function SettingsScreen() {
@@ -9,10 +7,7 @@ export default function SettingsScreen() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   return (
-    <ThemedView style={styles.content}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="subtitle">Settings</ThemedText>
-      </ThemedView>
+    <View style={styles.content}>
       <SegmentedButtons
         value={value}
         onValueChange={setValue}
@@ -32,7 +27,7 @@ export default function SettingsScreen() {
         value={isSwitchOn}
         onValueChange={() => setIsSwitchOn(!isSwitchOn)}
       />
-    </ThemedView>
+    </View>
   );
 }
 
@@ -42,10 +37,5 @@ const styles = StyleSheet.create({
     gap: 16,
     overflow: "hidden",
     padding: 32,
-  },
-  titleContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 8,
   },
 });
